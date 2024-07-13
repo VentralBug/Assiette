@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'assiette Équilibrée</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #total-calories {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        div.FruitsEtLégumes, div.GrainsEntiers, div.Proteines, div.Breuvages, div.Autres {
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        div.FruitsEtLégumes{
+            background-color: #8bd90a;
+            border-radius: 20px;
+        }
+        div.GrainsEntiers{
+            background-color: #E8871E;
+            border-radius: 20px;
+        }
+        div.Proteines{
+            background-color: #DD162D;
+            border-radius: 20px;
+        }
+        div.Breuvages{
+            background-color: #279AF1;
+            border-radius: 20px;
+        }
+        div.Autres{
+            background-color: #00ccc2;
+            border-radius: 20px;
+        }
+        .Sous-total {
+            font-weight: bold;
+            font-size: 20px;
+        }
+        img{
+            max-height: 50px;
+            max-width: 50px;
+        }
+        img#logo{
+            max-height: 10vw;
+            max-width: 80vw ;
+        }
+        h1{
+            font-family: "Arial";
+            font-size: 5em;
+            font-variant-caps: small-caps;
+            padding: 10px;
+            text-shadow: gray 5px 3px 3px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        h2{
+            font-family: "Arial";
+            font-size: 30px;
+        }
+        div.Sous-total{
+            margin-top: 2em;
+            padding:10px;
+            background-color: white;
+            text-decoration: none;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 20px;
+        }
+        div#total-calories {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            border: none;
+            outline: none;
+            background-color: white;
+            color: black;
+            padding: 25px;
+            border-radius: 20px;
+            font-size: 3em;
+            font-family: "Arial";
+            border: solid black;
+            font-weight: bold;
+        }
+        div.item{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<header>
+    <img id="logo" src="images/Logo.png" alt="Logo Débrouillards">
+    <h1>L'assiette équilibrée</h1>
+</header>
+<body>
+<script>
+    function getCalories(food) {
+        switch (food) {
+            case 'Fraises':
+                return 27;
+            case 'Pomme':
+                return 72;
+            case 'Banane':
+                return 105;
+            case 'Orange':
+                return 62;
+            case 'Melon d\'eau':
+                return 24;
+            case 'Brocoli':
+                return 29;
+            case 'Carottes':
+                return 80;
+            case 'Concombre':
+                return 3;
+            case 'Poivron rouge':
+                return 15;
+            case 'Pain':
+                return 86;
+            case 'Pâtes':
+                return 220;
+            case 'Riz':
+                return 109;
+            case 'Yogourt':
+                return 116;
+            case 'Cheddar':
+                return 202;
+            case 'Steak':
+                return 214;
+            case 'Saucisse italienne':
+                return 258;
+            case 'Beurre d\'arachides':
+                return 191;
+            case 'Jus de pomme':
+                return 59;
+            case 'Lait 2%':
+                return 129;
+            case 'Café':
+                return 3;
+            case 'Eau':
+                return 0;
+            case 'Hot-dog':
+                return 242;
+            case 'Bonbons':
+                return 143;
+            case 'Tablette de chocolat':
+                return 268;
+            case 'Croustilles':
+                return 234;
+            case 'Gâteau':
+                return 408;
+            default:
+                return 0;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sélectionner tous les checkboxes
+        var checkboxes = document.querySelectorAll('input[type="checkbox"][name="food"]');
+
+        // Ajouter un écouteur d'événement à chaque checkbox
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var food = checkbox.value;
+                var calories = getCalories(food);
+                var subtotalDiv = checkbox.closest('.FruitsEtLégumes, .GrainsEntiers, .Proteines, .Breuvages, .Autres').querySelector('.Sous-total');
+                var totalDiv = document.getElementById('total-calories');
+
+                // Mettre à jour le sous-total de la catégorie
+                var currentSubtotal = parseInt(subtotalDiv.textContent.split(':')[1].trim()) || 0;
+                if (checkbox.checked) {
+                    currentSubtotal += calories;
+                } else {
+                    currentSubtotal -= calories;
+                }
+                subtotalDiv.textContent = 'Sous-total: ' + currentSubtotal;
+
+                // Mettre à jour le total général
+                var currentTotal = parseInt(totalDiv.textContent.split(':')[1].trim()) || 0;
+                if (checkbox.checked) {
+                    currentTotal += calories;
+                } else {
+                    currentTotal -= calories;
+                }
+                totalDiv.textContent = 'Total: ' + currentTotal;
+            });
+        });
+    });
+</script>
+<div class="FruitsEtLégumes">
+    <h2>Fruits & Légumes</h2>
+    <div style="display: flex">
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Fraises"><img src="Fraise.png" alt="Fraise"> </label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Pomme"><img src="Pomme.png" alt="Pomme"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Banane"><img src="Banane.png" alt="Banane"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Orange"><img src="Orange.png" alt="Orange"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Melon d'eau"><img src="Melon.png" alt="Melon"></label><br>
+        </div>
+    </div>
+    <div style="display: flex;margin-top: 3em">
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Brocoli"><img src="Brocoli.png" alt="Brocoli"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Carottes"><img src="Carotte.png" alt="Carotte"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Concombre"><img src="Concombre.png" alt="Concombre"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Poivron rouge"><img src="Poivron.png" alt="Poivron"></label><br>
+        </div>
+    </div>
+    <div class="Sous-total">Sous-total: 0</div>
+</div>
+<div class="GrainsEntiers">
+    <h2>Grains entiers</h2>
+    <div style="display: flex">
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Pain"><img src="Pain.png" alt="Pain"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Pâtes"><img src="Pâte.png" alt="Pâte"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Riz"><img src="Riz.png" alt="Riz"></label><br>
+        </div>
+    </div>
+    <div class="Sous-total">Sous-total: 0</div>
+</div>
+<div class="Proteines">
+    <h2>Protéines</h2>
+    <div style="display: flex">
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Yogourt"><img src="Yogourt.png" alt="Yogourt"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Cheddar"><img src="Fromage.png" alt="Fromage"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Steak"><img src="Streak.png" alt="Steak"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Saucisse italienne"><img src="Saucisse.png" alt="Saucisse"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Beurre d'arachides"><img src="BeurreArachide.png" alt="BeurreArachide"></label><br>
+        </div>
+    </div>
+    <div class="Sous-total">Sous-total: 0</div>
+</div>
+<div class="Breuvages">
+    <h2>Breuvages</h2>
+    <div style="display: flex">
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Jus de pomme"><img src="Jus.png" alt="Jus"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Lait 2%"><img src="Lait.png" alt="Lait"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Café"><img src="Cafe.png" alt="Cafe"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Eau"><img src="Eau.png" alt="Eau"></label><br>
+        </div>
+    </div>
+    <div class="Sous-total">Sous-total: 0</div>
+</div>
+<div class="Autres">
+    <h2>Autres</h2>
+    <div style="display: flex">
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Hot-dog"><img src="Hot-Dog.png" alt="Hot-Dog"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Bonbons"><img src="Bonbons.png" alt="Bonbons"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Tablette de chocolat"><img src="Chocolat.png" alt="Chocolat"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Croustilles"><img src="Croustilles.png" alt="Croustilles"></label><br>
+        </div>
+        <div class="item">
+            <label><input type="checkbox" name="food" value="Gâteau"><img src="Gateau.png" alt="Gateau"></label><br>
+        </div>
+    </div>
+    <div class="Sous-total">Sous-total: 0</div>
+</div>
+</body>
+<footer>
+    <div style="padding: 100px"></div>
+    <div id="total-calories">Total: 0</div>
+</footer>
+</html>
